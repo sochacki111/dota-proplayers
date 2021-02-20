@@ -34,3 +34,4 @@ if (!MONGODB_URI) {
 export const REDIS_URL = process.env.REDIS_URL || 'redis://localhost:6379';
 export const REDIS_CACHE_EXPIRE_TIME =
   Number(process.env.REDIS_SECONDS) || 3600;
+  export const JWT_SECRET = process.env.JWT_SECRET || 'somesecrettoken';
