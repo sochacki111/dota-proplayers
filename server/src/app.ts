@@ -4,6 +4,8 @@ import passport from 'passport';
 import cors from 'cors';
 import morgan from 'morgan';
 
+import userRoutes from './routes/user.routes';
+
 // Create a new express app instance
 const app: Application = express();
 
@@ -32,6 +34,7 @@ app.use(bodyParser.urlencoded({ extended: true }));
 // Swagger
 
 // Routes
+app.use('/user', userRoutes);
 app.get('/', (req, res) => {
   res.send('Hello world!');
 });
