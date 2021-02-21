@@ -28,6 +28,9 @@ export default function SigninScreen(props) {
         <div>
           <h1>Sign In</h1>
         </div>
+        {/* TODO Create Loading and Message component */}
+        {loading && <p>Loading...</p>}
+        {error && <p>{error.message}</p>}
         <div>
           <label htmlFor="email">Email address</label>
           <input

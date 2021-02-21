@@ -6,6 +6,8 @@ import { register } from '../actions/userActions';
 export default function RegisterScreen(props) {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
+  const [confirmPassword, setConfirmPassword] = useState('');
+  const [confirmPasswordError, setConfirmPasswordError] = useState('');
 
   const userRegister = useSelector((state) => state.userRegister);
   const { userInfo, loading, error } = userRegister;
@@ -13,7 +15,12 @@ export default function RegisterScreen(props) {
   const dispatch = useDispatch();
   const submitHandler = (e) => {
     e.preventDefault();
-    dispatch(register(email, password));
+    if (password !== confirmPassword) {
+      setConfirmPasswordError('Password and confirm password does not match');
+    } else {
+      dispatch(register(email, password));
+      setConfirmPasswordError('');
+    }
   };
 
   useEffect(() => {
@@ -28,6 +35,10 @@ export default function RegisterScreen(props) {
         <div>
           <h1>Create Account</h1>
         </div>
+        {/* TODO Create Loading and Message component */}
+        {loading && <p>Loading...</p>}
+        {error && <p>{error.message}</p>}
+        {confirmPasswordError && <p>{confirmPasswordError}</p>}
         <div>
           <label htmlFor="email">Email address</label>
           <input
@@ -46,6 +57,16 @@ export default function RegisterScreen(props) {
             placeholder="Enter password"
             required
             onChange={(e) => setPassword(e.target.value)}
+          ></input>
+        </div>
+        <div>
+          <label htmlFor="confirmPassword">Confirm Password</label>
+          <input
+            type="password"
+            id="confirmPassword"
+            placeholder="Enter confirm password"
+            required
+            onChange={(e) => setConfirmPassword(e.target.value)}
           ></input>
         </div>
         <div>

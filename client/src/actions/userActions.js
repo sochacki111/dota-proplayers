@@ -6,7 +6,7 @@ import {
   USER_SIGNIN_FAIL,
   USER_SIGNIN_REQUEST,
   USER_SIGNIN_SUCCESS,
-  USER_SIGNOUT,
+  USER_SIGNOUT
 } from '../constants/userConstants';
 
 export const register = (email, password) => async (dispatch) => {
@@ -17,13 +17,14 @@ export const register = (email, password) => async (dispatch) => {
       password
     });
     dispatch({ type: USER_REGISTER_SUCCESS, payload: data });
+    // dispatch({ type: USER_SIGNIN_SUCCESS, payload: data });
     localStorage.setItem('userInfo', JSON.stringify(data));
   } catch (error) {
     dispatch({
       type: USER_REGISTER_FAIL,
       payload:
-        error.response && error.response.data.message
-          ? error.response.data.message
+        error.response && error.response.data.error
+          ? error.response.data.error
           : error.message
     });
   }
@@ -39,8 +40,8 @@ export const signin = (email, password) => async (dispatch) => {
     dispatch({
       type: USER_SIGNIN_FAIL,
       payload:
-        error.response && error.response.data.message
-          ? error.response.data.message
+        error.response && error.response.data.error
+          ? error.response.data.error
           : error.message
     });
   }
