@@ -54,6 +54,7 @@ class UsersController {
       return res.status(200).json({
         _id: user._id,
         email: user.email,
+        // TODO Rename to token
         idToken: UsersController.createToken(user),
         expiresIn: TOKEN_TIMEOUT
       });
