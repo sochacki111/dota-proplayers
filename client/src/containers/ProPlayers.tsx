@@ -1,14 +1,38 @@
-import axios from 'axios';
+import axios from '../axios-base';
 import React, { useState, useEffect } from 'react';
 import InfiniteScroll from 'react-infinite-scroll-component';
+import { Theme, createStyles, makeStyles } from '@material-ui/core/styles';
+import GridList from '@material-ui/core/GridList';
+import GridListTile from '@material-ui/core/GridListTile';
+import GridListTileBar from '@material-ui/core/GridListTileBar';
+
+const useStyles = makeStyles((theme: Theme) =>
+  createStyles({
+    root: {
+      display: 'flex',
+      flexWrap: 'wrap',
+      justifyContent: 'space-around',
+      overflow: 'hidden',
+      backgroundColor: theme.palette.background.paper
+    },
+    gridList: {
+      width: 500,
+      height: 450
+    },
+    icon: {
+      color: 'rgba(255, 255, 255, 0.54)'
+    }
+  })
+);
 
 const ProPlayers = () => {
+  const classes = useStyles();
   const [proPlayers, setProPlayers] = useState<any[]>([]);
   const [pageNumber, setPageNumber] = useState(1);
 
   const fetchProPlayers = async (pageNumber: Number) => {
     const { data } = await axios.get(
-      `http://localhost:8080/user/fetch_data?page=${pageNumber}`
+      `/user/fetch_data?page=${pageNumber}`
     );
     setProPlayers(proPlayers.concat(data));
   };
@@ -28,13 +52,25 @@ const ProPlayers = () => {
         loader={<h4>Loading...</h4>}
         endMessage={
           <p style={{ textAlign: 'center' }}>
-            <b>Yay! You have seen it all</b>
+            <b>No more Pro players!</b>
           </p>
         }
       >
-        {proPlayers.map((proPlayer: any, index: Number) => (
-          <img key={proPlayer.account_id} src={proPlayer.avatarfull} />
-        ))}
+        <div className={classes.root}>
+          <GridList cellHeight={180} cols={10}>
+            {proPlayers.map((proPlayer: any) => (
+              <GridListTile key={proPlayer.account_id}>
+                <a href={proPlayer.profileurl} target="_blank">
+                  <img src={proPlayer.avatarfull} alt="ProPlayer avatar" />
+                  <GridListTileBar
+                    title={proPlayer.personaname}
+                    subtitle={<span>{proPlayer.team_name}</span>}
+                  />
+                </a>
+              </GridListTile>
+            ))}
+          </GridList>
+        </div>
       </InfiniteScroll>
     </div>
   );

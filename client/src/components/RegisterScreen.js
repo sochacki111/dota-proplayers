@@ -2,8 +2,36 @@ import React, { useState, useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { Link } from 'react-router-dom';
 import { register } from '../actions/userActions';
+import { makeStyles } from '@material-ui/core/styles';
+import TextField from '@material-ui/core/TextField';
+import Grid from '@material-ui/core/Grid';
+import Typography from '@material-ui/core/Typography';
+import Container from '@material-ui/core/Container';
+import Button from '@material-ui/core/Button';
+import CssBaseline from '@material-ui/core/CssBaseline';
+
+const useStyles = makeStyles((theme) => ({
+  paper: {
+    marginTop: theme.spacing(8),
+    display: 'flex',
+    flexDirection: 'column',
+    alignItems: 'center'
+  },
+  avatar: {
+    margin: theme.spacing(1),
+    backgroundColor: theme.palette.secondary.main
+  },
+  form: {
+    width: '100%',
+    marginTop: theme.spacing(3)
+  },
+  submit: {
+    margin: theme.spacing(3, 0, 2)
+  }
+}));
 
 export default function RegisterScreen(props) {
+  const classes = useStyles();
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [confirmPassword, setConfirmPassword] = useState('');
@@ -30,58 +58,71 @@ export default function RegisterScreen(props) {
   }, [props.history, userInfo]);
 
   return (
-    <div>
-      <form onSubmit={submitHandler}>
-        <div>
-          <h1>Create Account</h1>
-        </div>
-        {/* TODO Create Loading and Message component */}
+    <Container component="main" maxWidth="xs">
+      <CssBaseline />
+      <div className={classes.paper}>
+        <Typography component="h1" variant="h5">
+          Sign up
+        </Typography>
         {loading && <p>Loading...</p>}
         {error && <p>{error.message}</p>}
         {confirmPasswordError && <p>{confirmPasswordError}</p>}
-        <div>
-          <label htmlFor="email">Email address</label>
-          <input
-            type="email"
-            id="email"
-            placeholder="Enter email"
-            required
-            onChange={(e) => setEmail(e.target.value)}
-          ></input>
-        </div>
-        <div>
-          <label htmlFor="password">Password</label>
-          <input
-            type="password"
-            id="password"
-            placeholder="Enter password"
-            required
-            onChange={(e) => setPassword(e.target.value)}
-          ></input>
-        </div>
-        <div>
-          <label htmlFor="confirmPassword">Confirm Password</label>
-          <input
-            type="password"
-            id="confirmPassword"
-            placeholder="Enter confirm password"
-            required
-            onChange={(e) => setConfirmPassword(e.target.value)}
-          ></input>
-        </div>
-        <div>
-          <label />
-          <button className="primary" type="submit">
-            Register
-          </button>
-        </div>
-        <div>
-          <label />
-          <div>
-            <Link to={`/signin`}>Sign-In</Link>
-          </div>
-        </div>
-      </form>
-    </div>
+        <form className={classes.form} onSubmit={submitHandler}>
+          <Grid container spacing={2}>
+            <Grid item xs={12}>
+              <TextField
+                variant="outlined"
+                required
+                fullWidth
+                id="email"
+                label="Email Address"
+                name="email"
+                autoComplete="email"
+                type="email"
+                onChange={(e) => setEmail(e.target.value)}
+              />
+            </Grid>
+            <Grid item xs={12}>
+              <TextField
+                variant="outlined"
+                required
+                fullWidth
+                name="password"
+                label="Password"
+                type="password"
+                id="password"
+                onChange={(e) => setPassword(e.target.value)}
+              />
+            </Grid>
+            <Grid item xs={12}>
+              <TextField
+                variant="outlined"
+                required
+                fullWidth
+                name="confirmPassword"
+                label="Confirm password"
+                type="password"
+                id="confirmPassword"
+                onChange={(e) => setConfirmPassword(e.target.value)}
+              />
+            </Grid>
+          </Grid>
+          <Button
+            type="submit"
+            fullWidth
+            variant="contained"
+            color="primary"
+            className={classes.submit}
+          >
+            Sign Up
+          </Button>
+          <Grid container justify="flex-end">
+            <Grid item>
+              <Link to={`/signin`}>Already have an account? Sign in</Link>
+            </Grid>
+          </Grid>
+        </form>
+      </div>
+    </Container>
   );
 }
