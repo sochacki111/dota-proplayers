@@ -4,6 +4,7 @@ import passport from 'passport';
 import cors from 'cors';
 import morgan from 'morgan';
 
+import { JwtStrategy } from './config/passport';
 import userRoutes from './routes/user.routes';
 
 // Create a new express app instance
@@ -15,7 +16,7 @@ app.use(passport.initialize());
 app.use(morgan('dev'));
 
 // Passport configuration
-// passport.use(JwtStrategy);
+passport.use(JwtStrategy);
 
 // Express configuration
 declare global {
