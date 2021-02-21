@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { Link } from 'react-router-dom';
 import { register } from '../actions/userActions';
@@ -7,11 +7,21 @@ export default function RegisterScreen(props) {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
 
+  const userRegister = useSelector((state) => state.userRegister);
+  const { userInfo, loading, error } = userRegister;
+
   const dispatch = useDispatch();
   const submitHandler = (e) => {
     e.preventDefault();
     dispatch(register(email, password));
   };
+
+  useEffect(() => {
+    if (userInfo) {
+      props.history.push('/signin');
+    }
+  }, [props.history, userInfo]);
+
   return (
     <div>
       <form onSubmit={submitHandler}>
