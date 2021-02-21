@@ -7,8 +7,30 @@ import RegisterScreen from './components/RegisterScreen';
 import SigninScreen from './components/SigninScreen';
 import { signout } from './actions/userActions';
 // import { RootState } from './store';
+import { createStyles, makeStyles, Theme } from '@material-ui/core/styles';
+import AppBar from '@material-ui/core/AppBar';
+import Toolbar from '@material-ui/core/Toolbar';
+import Typography from '@material-ui/core/Typography';
+import Button from '@material-ui/core/Button';
+import IconButton from '@material-ui/core/IconButton';
+import MenuIcon from '@material-ui/icons/Menu';
+
+const useStyles = makeStyles((theme: Theme) =>
+  createStyles({
+    root: {
+      flexGrow: 1
+    },
+    menuButton: {
+      marginRight: theme.spacing(2)
+    },
+    title: {
+      flexGrow: 1
+    }
+  })
+);
 
 function App() {
+  const classes = useStyles();
   const userSignin = useSelector((state: any) => state.userSignin);
   const { userInfo } = userSignin;
   const dispatch = useDispatch();
@@ -35,30 +57,38 @@ function App() {
 
   return (
     <div className="App">
-      <header>
-        <div>
-          <Link to="/">dota-proplayers</Link>
-        </div>
-        <div>
-          {userInfo ? (
-            <div>
-              <Link to="#">{userInfo.email} </Link>
-              <ul>
-                <li>
-                  <Link to="#signout" onClick={signoutHandler}>
-                    Sign Out
-                  </Link>
-                </li>
-              </ul>
-            </div>
-          ) : (
-            <Link to="/signin">Sign In</Link>
-          )}
-        </div>
-      </header>
-      <main>
-        {routes}
-      </main>
+      <div className={classes.root}>
+        <AppBar position="static">
+          <Toolbar>
+            {/* <IconButton
+              edge="start"
+              className={classes.menuButton}
+              color="inherit"
+              aria-label="menu"
+            >
+              <MenuIcon />
+            </IconButton> */}
+            <Typography variant="h6" className={classes.title}>
+              DOTA Pro Players
+            </Typography>
+            {userInfo ? (
+              <Button
+                color="inherit"
+                component={Link}
+                to="#signout"
+                onClick={signoutHandler}
+              >
+                Sign Out
+              </Button>
+            ) : (
+              <Button color="inherit" component={Link} to="/signin">
+                Sign In
+              </Button>
+            )}
+          </Toolbar>
+        </AppBar>
+      </div>
+      <main>{routes}</main>
     </div>
   );
 }
