@@ -11,7 +11,7 @@ docker-compose up
 ```
 
 ## Technologies
-✅ React + Redux
+✅ React + Redux  
 ✅ TypeScript  
 ✅ Express.js  
 ✅ MongoDB  
