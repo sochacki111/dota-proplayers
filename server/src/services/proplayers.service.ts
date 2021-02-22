@@ -2,15 +2,13 @@ import axios from '../config/axios';
 import { client, zrange } from '../config/redis';
 import ProPlayer from '../interfaces/proplayer.interface';
 export default class ProPlayersService {
-  // TODO Refine
   public async fetchAll(page = 1) {
     try {
-      if (!client.exists('proplayers')) {
+      if (await client.exists('proplayers')) {
         const { data } = await axios.get('/proplayers');
         let i = 0;
         data.forEach(async (player: ProPlayer) => {
           await client.zadd('proplayers', i, JSON.stringify(player));
-          // await client.zadd('proplayers', i, player);
           i++;
         });
       }
