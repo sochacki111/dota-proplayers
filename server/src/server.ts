@@ -5,7 +5,6 @@ import mongoose from 'mongoose';
 import { MONGODB_URI } from './util/secrets';
 
 // Connect to MongoDB
-// TODO Mongoose config
 mongoose
   .connect(MONGODB_URI, {
     useNewUrlParser: true,

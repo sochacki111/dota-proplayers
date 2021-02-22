@@ -17,8 +17,6 @@ const reducer = combineReducers({
   userRegister: userRegisterReducer
 });
 
-// export type RootState = ReturnType<typeof reducer>
-
 const composeEnhancer = window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || compose;
 const store = createStore(
   reducer,
