@@ -34,7 +34,7 @@ function App() {
     dispatch(signout());
   };
 
-  let routes = (
+  const routes = (
     <Switch>
       <Route path="/signin" component={SigninScreen}></Route>
       <Route path="/register" component={RegisterScreen}></Route>
@@ -42,14 +42,12 @@ function App() {
     </Switch>
   );
 
-  if (userInfo) {
-    routes = (
-      <Switch>
-        <Route path="/" exact component={ProPlayers} />
-        <Redirect to="/" />
-      </Switch>
-    );
-  }
+  const protectedRoutes = (
+    <Switch>
+      <Route path="/" exact component={ProPlayers} />
+      <Redirect to="/" />
+    </Switch>
+  );
 
   return (
     <div className="App">
@@ -76,7 +74,7 @@ function App() {
           </Toolbar>
         </AppBar>
       </div>
-      <main>{routes}</main>
+      <main>{userInfo ? protectedRoutes : routes} </main>
     </div>
   );
 }

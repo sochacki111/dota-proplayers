@@ -5,6 +5,7 @@ import { Theme, createStyles, makeStyles } from '@material-ui/core/styles';
 import GridList from '@material-ui/core/GridList';
 import GridListTile from '@material-ui/core/GridListTile';
 import GridListTileBar from '@material-ui/core/GridListTileBar';
+import IProPlayer from '../interfaces/proplayer.interface';
 
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({
@@ -31,7 +32,7 @@ const ProPlayers = () => {
   const [pageNumber, setPageNumber] = useState(1);
 
   const fetchProPlayers = async (pageNumber: Number) => {
-    const { data } = await axios.get(
+    const { data } = await axios.get<IProPlayer[]>(
       `/user/fetch_data?page=${pageNumber}`
     );
     setProPlayers(proPlayers.concat(data));
