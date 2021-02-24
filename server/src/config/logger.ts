@@ -1,7 +1,10 @@
 import pino from 'pino';
+import { LOGGER_LEVEL } from '../util/environment';
+
+console.log('LOGGER_LEVEL', LOGGER_LEVEL);
 
 const logger = pino({
-  level: process.env.NODE_ENV === 'production' ? 'error' : 'debug'
+  level: LOGGER_LEVEL
 });
 
 if (process.env.NODE_ENV !== 'production') {
