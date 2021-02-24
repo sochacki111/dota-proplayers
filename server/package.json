@@ -5,6 +5,8 @@
   "main": "app.js",
   "scripts": {
     "dev": "nodemon src/server.ts",
+    "build": "tsc -p .",
+    "start": "npm run build && node dist/server.js",
     "test": "jest --watchAll --no-cache --verbose"
   },
   "jest": {

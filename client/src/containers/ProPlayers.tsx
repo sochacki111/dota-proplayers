@@ -1,5 +1,6 @@
 import axios from '../axios-base';
 import React, { useState, useEffect } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
 import InfiniteScroll from 'react-infinite-scroll-component';
 import { Theme, createStyles, makeStyles } from '@material-ui/core/styles';
 import GridList from '@material-ui/core/GridList';
@@ -31,9 +32,18 @@ const ProPlayers = () => {
   const [proPlayers, setProPlayers] = useState<any[]>([]);
   const [pageNumber, setPageNumber] = useState(1);
 
+  const userSignin = useSelector((state: any) => state.userSignin);
+  const {
+    userInfo: { idToken }
+  } = userSignin;
+
   const fetchProPlayers = async (pageNumber: Number) => {
+    const config = {
+      headers: { Authorization: `Bearer ${idToken}` }
+    };
     const { data } = await axios.get<IProPlayer[]>(
-      `/user/fetch_data?page=${pageNumber}`
+      `/user/fetch_data?page=${pageNumber}`,
+      config
     );
     setProPlayers(proPlayers.concat(data));
   };
