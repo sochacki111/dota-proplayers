@@ -4,6 +4,8 @@ import ProPlayer from '../interfaces/proplayer.interface';
 export default class ProPlayersService {
   public async fetchAll(page = 1) {
     try {
+      // TODO Simple "for" for sequential processing or "Reduce"
+      // TODO Proplayers instead of index in cache
       if (await client.exists('proplayers')) {
         const { data } = await axios.get('/proplayers');
         let i = 0;
@@ -27,6 +29,7 @@ export default class ProPlayersService {
       return newResult;
     } catch (err) {
       return err;
+      // Add logger
     }
   }
 }

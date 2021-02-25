@@ -8,6 +8,8 @@ import {
   USER_SIGNOUT,
 } from '../constants/userConstants';
 
+// TODO Add initial state
+
 export const userRegisterReducer = (state = {}, action) => {
   switch (action.type) {
     case USER_REGISTER_REQUEST:
