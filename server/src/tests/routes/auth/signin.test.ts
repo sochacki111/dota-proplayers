@@ -13,16 +13,12 @@ it('returns 200 on successful signin', async () => {
     .expect(200);
 });
 
-it('throws an error when invalid data', async () => {
-  return request(app)
+it('throws an error when invalid data', async () => request(app)
     .post('/user/login')
     .send({ email: 'invalid@email.com' })
-    .expect(400);
-});
+    .expect(400));
 
-it('throws an error when no user in the database', async () => {
-  return request(app)
+it('throws an error when no user in the database', async () => request(app)
     .post('/user/login')
     .send({ email: 'ts@ts.com', password: 'pass' })
-    .expect(400);
-});
+    .expect(400));

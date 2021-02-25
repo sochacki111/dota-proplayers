@@ -1,11 +1,10 @@
 import pino from 'pino';
+import { LOGGER_LEVEL } from '../util/environment';
 
 const logger = pino({
-  level: process.env.NODE_ENV === 'production' ? 'error' : 'debug'
+  level: LOGGER_LEVEL
 });
 
-if (process.env.NODE_ENV !== 'production') {
-  logger.debug('Logging initialized at debug level');
-}
+logger.debug(`Logging initialized at ${LOGGER_LEVEL} level`);
 
 export default logger;

@@ -13,7 +13,7 @@ services:
     container_name: node-server
     build:
       context: ./server
-      dockerfile: Dockerfile
+      dockerfile: Dockerfile.dev
     restart: always
     ports:
       - '8080:8080'

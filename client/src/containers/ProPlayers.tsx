@@ -1,10 +1,12 @@
 import axios from '../axios-base';
 import React, { useState, useEffect } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
 import InfiniteScroll from 'react-infinite-scroll-component';
 import { Theme, createStyles, makeStyles } from '@material-ui/core/styles';
 import GridList from '@material-ui/core/GridList';
 import GridListTile from '@material-ui/core/GridListTile';
 import GridListTileBar from '@material-ui/core/GridListTileBar';
+import IProPlayer from '../interfaces/proplayer.interface';
 
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({
@@ -30,9 +32,18 @@ const ProPlayers = () => {
   const [proPlayers, setProPlayers] = useState<any[]>([]);
   const [pageNumber, setPageNumber] = useState(1);
 
+  const userSignin = useSelector((state: any) => state.userSignin);
+  const {
+    userInfo: { idToken }
+  } = userSignin;
+
   const fetchProPlayers = async (pageNumber: Number) => {
-    const { data } = await axios.get(
-      `/user/fetch_data?page=${pageNumber}`
+    const config = {
+      headers: { Authorization: `Bearer ${idToken}` }
+    };
+    const { data } = await axios.get<IProPlayer[]>(
+      `/user/fetch_data?page=${pageNumber}`,
+      config
     );
     setProPlayers(proPlayers.concat(data));
   };
