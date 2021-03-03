@@ -36,7 +36,7 @@ export default function SigninScreen(props) {
   const [password, setPassword] = useState('');
 
   const userSignin = useSelector((state) => state.userSignin);
-  const { userInfo, loading, error } = userSignin;
+  const { userInfo, loading, errors } = userSignin;
 
   const dispatch = useDispatch();
   const submitHandler = (e) => {
@@ -58,7 +58,7 @@ export default function SigninScreen(props) {
           Sign in
         </Typography>
         {loading && <p>Loading...</p>}
-        {error && <p>{error.message}</p>}
+        {errors && <p>{errors[0][Object.keys(errors[0])[0]]}</p>}
         <form className={classes.form} onSubmit={submitHandler}>
           <Grid container spacing={2}>
             <Grid item xs={12}>

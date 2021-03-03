@@ -38,7 +38,7 @@ export default function RegisterScreen(props) {
   const [confirmPasswordError, setConfirmPasswordError] = useState('');
 
   const userRegister = useSelector((state) => state.userRegister);
-  const { userInfo, loading, error } = userRegister;
+  const { userInfo, loading, errors } = userRegister;
 
   const dispatch = useDispatch();
   const submitHandler = (e) => {
@@ -65,7 +65,7 @@ export default function RegisterScreen(props) {
           Sign up
         </Typography>
         {loading && <p>Loading...</p>}
-        {error && <p>{error.message}</p>}
+        {errors && <p>{errors[0][Object.keys(errors[0])[0]]}</p>}
         {confirmPasswordError && <p>{confirmPasswordError}</p>}
         <form className={classes.form} onSubmit={submitHandler}>
           <Grid container spacing={2}>

@@ -4,6 +4,7 @@ import User, { IUser } from '../models/user';
 import { JWT_SECRET, TOKEN_TIMEOUT } from '../util/secrets';
 import ProPlayersService from '../services/proplayers.service';
 import logger from '../config/logger';
+import Error from '../interfaces/error.interface';
 
 class UsersController {
   private static createToken(user: IUser) {
@@ -24,8 +25,9 @@ class UsersController {
 
   public static async login(req: Request, res: Response): Promise<Response> {
     // Validation if user exists made in middleware
-    const user = await User.findOne({ email: req.body.email }) as IUser;
+    const user = (await User.findOne({ email: req.body.email })) as IUser;
 
+    // TODO Move to validateRules
     const isMatch = await user.comparePassword(req.body.password);
     if (isMatch) {
       return res.status(200).json({
@@ -36,13 +38,13 @@ class UsersController {
       });
     }
 
-    return res.status(400).json({
-      error: {
-        message: 'The email or password are incorrect'
-      }
+    const extractedErrors: Error[] = [];
+    extractedErrors.push({
+      password: 'password is incorrect'
     });
+    return res.status(422).json({ errors: extractedErrors });
   }
-  
+
   public static async fetchProPlayers(
     req: Request,
     res: Response,

@@ -20,15 +20,18 @@ export const register = (email, password) => async (dispatch) => {
     // dispatch({ type: USER_SIGNIN_SUCCESS, payload: data });
     // TODO Add to middleware ir userReducers
     localStorage.setItem('userInfo', JSON.stringify(data)); // Add to middleware or rather userReducers
-  } catch (error) {
+  } catch (err) {
     dispatch({
       type: USER_REGISTER_FAIL,
       payload:
-        error.response && error.response.data.error
-          ? error.response.data.error
-          : error.message
+        err.response && err.response.data.errors
+          ? err.response.data.errors
+          : err.message
     });
   }
+  // dispatchError(type) {
+    
+  // }
 };
 
 export const signin = (email, password) => async (dispatch) => {
@@ -37,13 +40,13 @@ export const signin = (email, password) => async (dispatch) => {
     const { data } = await axios.post('/user/login', { email, password });
     dispatch({ type: USER_SIGNIN_SUCCESS, payload: data });
     localStorage.setItem('userInfo', JSON.stringify(data));
-  } catch (error) {
+  } catch (err) {
     dispatch({
       type: USER_SIGNIN_FAIL,
       payload:
-        error.response && error.response.data.error
-          ? error.response.data.error
-          : error.message
+        err.response && err.response.data.errors
+          ? err.response.data.errors
+          : err.message
     });
   }
 };

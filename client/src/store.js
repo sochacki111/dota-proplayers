@@ -5,6 +5,7 @@ import {
   userSigninReducer
 } from './reducers/userReducers';
 
+// TODO InitialState here ?
 const initialState = {
   userSignin: {
     userInfo: localStorage.getItem('userInfo')
