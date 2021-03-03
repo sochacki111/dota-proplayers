@@ -13,19 +13,6 @@ class UsersController {
   }
 
   public static async register(req: Request, res: Response): Promise<Response> {
-    if (!req.body.email || !req.body.password) {
-      return res
-        .status(400)
-        .json({ error: { message: 'Please send your email and password' } });
-    }
-
-    const user = await User.findOne({ email: req.body.email });
-    if (user) {
-      return res
-        .status(400)
-        .json({ error: { message: 'The User already exists' } });
-    }
-
     const newUser = new User(req.body);
     await newUser.save();
     logger.debug(`User ${newUser.email} created`);
@@ -36,18 +23,8 @@ class UsersController {
   }
 
   public static async login(req: Request, res: Response): Promise<Response> {
-    if (!req.body.email || !req.body.password) {
-      return res
-        .status(400)
-        .json({ error: { message: 'Please send your email and password' } });
-    }
-
-    const user = await User.findOne({ email: req.body.email });
-    if (!user) {
-      return res
-        .status(400)
-        .json({ error: { message: 'The User does not exists' } });
-    }
+    // Validation if user exists made in middleware
+    const user = await User.findOne({ email: req.body.email }) as IUser;
 
     const isMatch = await user.comparePassword(req.body.password);
     if (isMatch) {

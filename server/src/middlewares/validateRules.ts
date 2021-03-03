@@ -1,5 +1,10 @@
-import { matchedData, validationResult, ValidationError } from 'express-validator';
+import {
+  matchedData,
+  validationResult,
+  ValidationError
+} from 'express-validator';
 import { Request, Response, NextFunction } from 'express';
+import Error from '../interfaces/error.interface';
 
 const validateRules = (
   req: Request,
@@ -13,9 +18,7 @@ const validateRules = (
     return next();
   }
 
-  // const extractedErrors: ValidationError[] = [];
-  const extractedErrors: any = [];
-  // errors.array().map((err) => extractedErrors.push(err));
+  const extractedErrors: Error[] = [];
   errors.array().map((err) => extractedErrors.push({ [err.param]: err.msg }));
 
   return res.status(422).json({
