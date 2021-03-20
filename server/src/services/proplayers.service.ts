@@ -9,14 +9,35 @@ export default class ProPlayersService {
   public async fetchAll(page = 1): Promise<ProPlayer[]> {
     try {
       const playersCached: boolean = await client.exists('proplayers');
-      if (playersCached) {
-        const { data } = await axios.get('/proplayers');
-        await Promise.all(
-          data.map((player: ProPlayer, index: number) =>
-            client.zadd('proplayers', index, JSON.stringify(player))
-          )
-        );
-      }
+      // if (playersCached) {
+      // const { data } = await axios.get('/proplayers');
+      // await Promise.all(
+      //   data.map((player: ProPlayer, index: number) =>
+      //     client.zadd('proplayers', index, JSON.stringify(player))
+      //   )
+      // );
+
+      // eslint-disable-next-line no-restricted-syntax
+
+      // for (const player of data) {
+      //   console.log(player);
+
+      //   await new Promise(
+      //     client.zadd('proplayers', player.account_id, JSON.stringify(player))
+      //   );
+      //   // await new Promise((resolve) =>
+      //   //   client.zadd('proplayers', player.account_id, JSON.stringify(player))
+      //   // );
+      // }
+      // }
+
+      // eslint-disable-next-line no-restricted-syntax
+      // for await (const player of data) {
+      //   console.log(player);
+
+      //   client.zadd('proplayers', player.account_id, JSON.stringify(player));
+      // }
+
       const PAGE_SIZE = 50;
       const skip = (page - 1) * PAGE_SIZE;
 
